@@ -12,7 +12,16 @@ RUN apt-get install libffi-dev --assume-yes
 RUN apt-get install libpython-dev --assume-yes
 RUN apt-get install libssl-dev --assume-yes
 
+RUN 	apt-get install libtool  -y && \
+	apt-get install autoconf  -y && \
+	apt-get install git  -y && \
+	git clone --depth 1 --recursive -b dtls https://github.com/home-assistant/libcoap.git  && \
+	 cd libcoap  && \ 
 
+	./autogen.sh  && \
+	./configure --disable-documentation --disable-shared --without-debug CFLAGS="-D COAP_DEBUG_FD=stderr"  && \
+	make  && \
+	make install
 
 EXPOSE 8123
 
